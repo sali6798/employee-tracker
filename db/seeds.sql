@@ -1,52 +1,30 @@
 USE employeetracker_db;
 
-DELIMITER //
-DROP PROCEDURE totalUtilizedBudget;
-CREATE PROCEDURE totalUtilizedBudget(IN name VARCHAR(30))
-BEGIN
-	SELECT IF(SUM(R.salary) IS NULL, 0, SUM(R.salary)) AS utilized_budget
-	FROM employees E
-	JOIN roles R ON E.role_id = R.id
-	JOIN departments D on R.department_id = D.id
-	WHERE D.name = name;	
-END//
-DELIMITER ;
+-- create departments
+INSERT INTO departments (name)
+VALUES ("Finance"), ("Human Resources"), ("Engineering");
 
--- SELECT * FROM employees WHERE last_name = "Carmichael";
--- INSERT INTO employees (first_name, last_name, role_id, manager_id)
--- VALUES ("Jim", "James", 1, 1);
+-- create roles for finance
+INSERT INTO roles (title, salary, department_id)
+VALUES ("Accountant", 70000, 1), ("Auditor", 55000, 1), ("Chief Financial Officer", 128000, 1);
 
--- INSERT INTO employees (first_name, last_name, role_id, manager_id)
--- VALUES ("Bob", "Builder", 1, 1), ("Benjamin", "Button", 1, 1), ("Jemima", "Muppet", 1, 3);
+-- create roles for human resources
+INSERT INTO roles (title, salary, department_id)
+VALUES ("Manager", 80000, 2), ("Assistant", 40000, 2), ("Director", 110000, 2);
 
--- SELECT *
--- FROM employees E
--- JOIN roles R ON E.role_id = R.id;
+-- create roles for engineering
+INSERT INTO roles (title, salary, department_id)
+VALUES ("Manager", 120000, 3), ("Front End Developer", 70000, 3), ("Software Engineer", 80000, 3);
 
--- SELECT id first name department salary manager
--- SELECT E1.first_name, E1.last_name, CONCAT_WS(" ", E2.first_name, E2.last_name) AS manager
--- SELECT *, CONCAT_WS(" ", E2.first_name, E2.last_name) AS manager
--- FROM employees E, employees E2
--- JOIN roles R ON E.role_id=R.id
--- WHERE E.manager_id = E2.id
--- ORDER BY manager, E.first_name;
+-- create employees for finance
+INSERT INTO employees (first_name, last_name, role_id, manager_id)
+VALUES ("John", "Doe", 1, NULL), ("James", "Bond", 2, 1), ("Jemima", "Saler", 3, NULL), ("Jessica", "Seward", 2, 1);
 
+-- create employees for human resources
+INSERT INTO employees (first_name, last_name, role_id, manager_id)
+VALUES ("Lady", "Marmalade", 4, NULL), ("Gerard", "Jacobs", 5, 5), ("Leo", "Davinci", 6, NULL), ("Tulip", "Blossom", 5, 5);
 
-
-
--- CALL getAllEmployees();
--- CALL getEmployeesByDepartment("Human resources");
--- CALL getEmployeesByManager("sally", "robbins");
-
-
-
-
--- INSERT INTO departments (name)
--- VALUES ("Finance"), ("Human Resources");
-
--- INSERT INTO roles (title, salary, department_id)
--- VALUES ("Accountant", 70000, 1), ("Manager", 78000, 2);
-
--- INSERT INTO employees (first_name, last_name, role_id, manager_id)
--- VALUES ("John", "Doe", 1, NULL), ("James", "Bond", 1, 1);
+-- create employees for engineering
+INSERT INTO employees (first_name, last_name, role_id, manager_id)
+VALUES ("Greg", "Hector", 7, NULL), ("Wendy", "Wester", 8, 9), ("Tammy", "Tammers", 9, 9), ("Leon", "Bridges", 7, NULL);
 
